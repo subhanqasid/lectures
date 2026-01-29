@@ -1,0 +1,2457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WordPress Development Course - 25 Days Complete Course</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&display=swap');
+        
+        /* ============ INTRO ANIMATION STYLES ============ */
+        #intro-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #0a0a0a 100%);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        
+        #intro-overlay.hidden {
+            display: none;
+        }
+        
+        /* Particles */
+        .intro-particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+        
+        .intro-particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: #ea580c;
+            border-radius: 50%;
+            opacity: 0;
+            animation: floatParticle 4s infinite;
+        }
+        
+        @keyframes floatParticle {
+            0% { transform: translateY(100vh) scale(0); opacity: 0; }
+            10% { opacity: 0.6; }
+            90% { opacity: 0.6; }
+            100% { transform: translateY(-100px) scale(1); opacity: 0; }
+        }
+        
+        /* Orange Glow */
+        .intro-glow {
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(234, 88, 12, 0.3) 0%, transparent 70%);
+            border-radius: 50%;
+            animation: pulseGlow 3s ease-in-out infinite;
+        }
+        
+        @keyframes pulseGlow {
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.2); opacity: 0.8; }
+        }
+        
+        /* Intro Scenes */
+        .intro-scene {
+            position: absolute;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transform: scale(0.8);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        
+        .intro-scene.active {
+            opacity: 1;
+            transform: scale(1);
+        }
+        
+        .intro-scene.exit {
+            opacity: 0;
+            transform: scale(1.1);
+        }
+        
+        /* Webvanto Logo */
+        .webvanto-logo {
+            font-size: 3rem;
+            font-weight: 900;
+            color: white;
+            letter-spacing: 8px;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+        
+        .webvanto-tagline {
+            color: #ea580c;
+            font-size: 1.2rem;
+            letter-spacing: 4px;
+            font-weight: 500;
+        }
+        
+        /* WordPress Logo */
+        .wp-logo-intro {
+            font-size: 8rem;
+            color: #ea580c;
+            animation: wpSpin 1s ease-out forwards, wpPulse 2s ease-in-out infinite 1s;
+        }
+        
+        @keyframes wpSpin {
+            0% { transform: rotate(-180deg) scale(0); opacity: 0; }
+            100% { transform: rotate(0deg) scale(1); opacity: 1; }
+        }
+        
+        @keyframes wpPulse {
+            0%, 100% { filter: drop-shadow(0 0 20px rgba(234, 88, 12, 0.5)); }
+            50% { filter: drop-shadow(0 0 40px rgba(234, 88, 12, 0.8)); }
+        }
+        
+        /* Typing Effect */
+        .typing-text {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: white;
+            text-align: center;
+            overflow: hidden;
+            white-space: nowrap;
+            border-right: 3px solid #ea580c;
+            animation: typing 2s steps(30) forwards, blink 0.5s step-end infinite;
+        }
+        
+        .typing-text.sub {
+            font-size: 1.5rem;
+            color: #ea580c;
+            font-weight: 600;
+            animation-delay: 2s;
+        }
+        
+        @keyframes typing {
+            from { width: 0; }
+            to { width: 100%; }
+        }
+        
+        @keyframes blink {
+            50% { border-color: transparent; }
+        }
+        
+        /* Counter */
+        .counter-item {
+            text-align: center;
+            margin: 15px 0;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: counterFadeIn 0.5s ease-out forwards;
+        }
+        
+        .counter-item:nth-child(1) { animation-delay: 0s; }
+        .counter-item:nth-child(2) { animation-delay: 0.3s; }
+        .counter-item:nth-child(3) { animation-delay: 0.6s; }
+        
+        @keyframes counterFadeIn {
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .counter-number {
+            font-size: 4rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, #ea580c, #fb923c);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1;
+        }
+        
+        .counter-label {
+            font-size: 1.2rem;
+            color: #888;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+        }
+        
+        /* Instructor */
+        .instructor-intro {
+            text-align: center;
+        }
+        
+        .instructor-intro .by {
+            color: #666;
+            font-size: 1rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+        
+        .instructor-intro .name {
+            font-size: 3rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #ea580c, #fb923c);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .instructor-intro .title {
+            color: #888;
+            font-size: 1.2rem;
+            margin-top: 5px;
+        }
+        
+
+        
+        /* Loading Bar */
+        .loading-container {
+            width: 300px;
+            text-align: center;
+        }
+        
+        .loading-text {
+            color: #888;
+            font-size: 1rem;
+            margin-bottom: 15px;
+            letter-spacing: 2px;
+        }
+        
+        .loading-bar {
+            width: 100%;
+            height: 6px;
+            background: #222;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 30px;
+        }
+        
+        .loading-progress {
+            height: 100%;
+            background: linear-gradient(90deg, #ea580c, #fb923c);
+            border-radius: 10px;
+            width: 0%;
+            animation: loadingFill 2s ease-out forwards;
+        }
+        
+        @keyframes loadingFill {
+            to { width: 100%; }
+        }
+        
+        .begin-btn {
+            background: linear-gradient(135deg, #ea580c, #fb923c);
+            color: white;
+            border: none;
+            padding: 15px 50px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            border-radius: 50px;
+            cursor: pointer;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            box-shadow: 0 10px 40px rgba(234, 88, 12, 0.4);
+            transition: all 0.3s ease;
+            opacity: 0;
+            animation: fadeInBtn 0.5s ease-out 1.5s forwards;
+        }
+        
+        .begin-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 15px 50px rgba(234, 88, 12, 0.6);
+        }
+        
+        @keyframes fadeInBtn {
+            to { opacity: 1; }
+        }
+        
+        /* Skip Button */
+        .skip-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: rgba(255, 255, 255, 0.1);
+            color: #888;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 10px 25px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            z-index: 10000;
+        }
+        
+        .skip-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+        }
+        
+
+        
+        * {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        html, body {
+            height: 100%;
+            overflow: hidden;
+            background: linear-gradient(135deg, #fffbf7 0%, #fff7ed 50%, #fef3c7 100%);
+        }
+        
+        :root {
+            --primary: #ea580c;
+            --primary-light: #fb923c;
+            --primary-dark: #c2410c;
+        }
+
+        /* ============ SLIDE CONTAINER ============ */
+        .slides-wrapper {
+            position: fixed;
+            top: 0;
+            left: 80px;
+            right: 0;
+            bottom: 0;
+            overflow: hidden;
+        }
+
+        /* ============ INDIVIDUAL SLIDE ============ */
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 80px 100px;
+            overflow-y: auto;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        /* Better grid gaps */
+        .grid { gap: 25px; }
+        
+        .slide.active {
+            display: flex;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        /* ============ SIDEBAR ============ */
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 80px;
+            height: 100%;
+            background: white;
+            border-right: 1px solid #eee;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px 0;
+            z-index: 100;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.05);
+        }
+        
+        .sidebar-logo {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 15px rgba(234, 88, 12, 0.3);
+        }
+        
+        .sidebar-logo i {
+            color: white;
+            font-size: 24px;
+        }
+        
+        .slide-dots {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            max-height: calc(100% - 100px);
+            overflow-y: auto;
+            padding: 10px;
+        }
+        
+        .slide-dots::-webkit-scrollbar {
+            width: 4px;
+        }
+        
+        .slide-dots::-webkit-scrollbar-thumb {
+            background: #ddd;
+            border-radius: 4px;
+        }
+        
+        .slide-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #ddd;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+        
+        .slide-dot:hover {
+            background: #fcd9b6;
+            transform: scale(1.2);
+        }
+        
+        .slide-dot.active {
+            background: var(--primary);
+            transform: scale(1.3);
+            box-shadow: 0 0 0 3px rgba(234, 88, 12, 0.2);
+        }
+
+        /* ============ PROGRESS BAR ============ */
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 80px;
+            right: 0;
+            height: 4px;
+            background: #eee;
+            z-index: 99;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--primary-light));
+            transition: width 0.3s ease;
+            border-radius: 0 4px 4px 0;
+        }
+
+        /* ============ NAVIGATION ============ */
+        .nav-buttons {
+            position: fixed;
+            bottom: 40px;
+            right: 40px;
+            display: flex;
+            gap: 15px;
+            z-index: 100;
+        }
+        
+        .nav-btn {
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-btn.prev {
+            background: white;
+            color: #333;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .nav-btn.next {
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            color: white;
+            box-shadow: 0 4px 20px rgba(234, 88, 12, 0.4);
+        }
+        
+        .nav-btn:hover {
+            transform: translateY(-3px);
+        }
+        
+        .nav-btn.prev:hover {
+            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+        }
+        
+        .nav-btn.next:hover {
+            box-shadow: 0 6px 25px rgba(234, 88, 12, 0.5);
+        }
+
+        /* ============ SLIDE COUNTER ============ */
+        .slide-counter {
+            position: fixed;
+            bottom: 40px;
+            left: 100px;
+            background: white;
+            padding: 12px 24px;
+            border-radius: 30px;
+            font-size: 14px;
+            font-weight: 600;
+            color: #666;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            z-index: 100;
+        }
+        
+        .slide-counter span {
+            color: var(--primary);
+            font-weight: 800;
+        }
+
+        /* ============ FULLSCREEN BUTTON ============ */
+        .fullscreen-btn {
+            position: fixed;
+            top: 20px;
+            right: 40px;
+            background: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            color: #666;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            z-index: 100;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .fullscreen-btn:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        /* ============ CARDS ============ */
+        .card {
+            background: white;
+            border-radius: 20px;
+            padding: 35px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+            border: 1px solid rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+            margin: 5px;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 50px rgba(0,0,0,0.12);
+        }
+        
+        /* ============ SPACING UTILITIES ============ */
+        .space-y-3 > * + * { margin-top: 15px; }
+        .space-y-4 > * + * { margin-top: 20px; }
+        .gap-4 { gap: 20px; }
+        .gap-5 { gap: 25px; }
+        .gap-6 { gap: 30px; }
+        .gap-8 { gap: 40px; }
+        .mb-3 { margin-bottom: 15px; }
+        .mb-4 { margin-bottom: 20px; }
+        .mb-5 { margin-bottom: 25px; }
+        .mb-6 { margin-bottom: 30px; }
+        .mb-8 { margin-bottom: 40px; }
+        .mb-10 { margin-bottom: 50px; }
+        .p-4 { padding: 20px; }
+        .p-5 { padding: 25px; }
+        .p-6 { padding: 30px; }
+        .p-8 { padding: 40px; }
+        .p-10 { padding: 50px; }
+
+        /* ============ BADGES ============ */
+        .day-badge {
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            color: white;
+            padding: 10px 25px;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 14px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 15px rgba(234, 88, 12, 0.3);
+        }
+        
+        .week-badge {
+            background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+            color: white;
+            padding: 6px 16px;
+            border-radius: 50px;
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        /* ============ ICON BOX ============ */
+        .icon-box {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #fff7ed, #ffedd5);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid rgba(234, 88, 12, 0.1);
+            margin-bottom: 15px;
+        }
+        
+        .icon-box i {
+            font-size: 32px;
+            color: var(--primary);
+        }
+
+        /* ============ STEP NUMBER ============ */
+        .step-num {
+            width: 55px;
+            height: 55px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 800;
+            font-size: 20px;
+            box-shadow: 0 4px 15px rgba(234, 88, 12, 0.3);
+            flex-shrink: 0;
+            margin-right: 10px;
+        }
+
+        /* ============ INFO BOX ============ */
+        .info-box {
+            background: linear-gradient(135deg, #fff7ed, #ffedd5);
+            border: 1px solid rgba(234, 88, 12, 0.2);
+            border-left: 4px solid var(--primary);
+            border-radius: 15px;
+            padding: 25px 30px;
+            margin-top: 30px;
+        }
+
+        /* ============ INSTRUCTOR CARD ============ */
+        .instructor-card {
+            background: linear-gradient(135deg, #1a1a1a, #2d2d2d);
+            border-radius: 20px;
+            padding: 40px;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .instructor-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--primary-light));
+        }
+
+        /* ============ CODE BLOCK ============ */
+        .code-block {
+            background: #1a1a1a;
+            color: var(--primary-light);
+            font-family: 'Fira Code', monospace;
+            padding: 15px 25px;
+            border-radius: 12px;
+        }
+
+        /* ============ TAG ============ */
+        .tag {
+            background: #fff7ed;
+            border: 1px solid rgba(234, 88, 12, 0.2);
+            padding: 8px 16px;
+            border-radius: 50px;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--primary-dark);
+        }
+
+        /* ============ VS CARD ============ */
+        .vs-card {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            border: 2px solid #eee;
+            transition: all 0.3s ease;
+        }
+        
+        .vs-card ul {
+            margin-top: 20px;
+        }
+        
+        .vs-card ul li {
+            padding: 10px 0;
+        }
+        
+        .vs-card.recommended {
+            border-color: var(--primary);
+            box-shadow: 0 10px 40px rgba(234, 88, 12, 0.15);
+        }
+
+        /* ============ WEEK INTRO ============ */
+        .week-intro {
+            background: linear-gradient(135deg, #fff7ed, #ffedd5);
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* ============ TYPOGRAPHY ============ */
+        .title-xl {
+            font-size: 3.5rem;
+            font-weight: 900;
+            color: #1a1a1a;
+            line-height: 1.2;
+            margin-bottom: 20px;
+        }
+        
+        .title-lg {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: #1a1a1a;
+            line-height: 1.3;
+        }
+        
+        /* Better list spacing */
+        ul li, .space-y-3 > *, .space-y-4 > * {
+            padding: 8px 0;
+        }
+        
+        /* Content wrapper spacing */
+        .max-w-4xl, .max-w-5xl {
+            padding: 20px;
+        }
+        
+        .title-gradient {
+            background: linear-gradient(135deg, var(--primary-dark), var(--primary), var(--primary-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .stat-number {
+            font-size: 4rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* ============ PRINT STYLES ============ */
+        @media print {
+            .slide { display: block !important; page-break-after: always; }
+            .sidebar, .nav-buttons, .progress-bar, .slide-counter, .fullscreen-btn { display: none !important; }
+        }
+
+        /* ============ DOWNLOAD BUTTON ============ */
+        .download-btn {
+            position: fixed;
+            top: 20px;
+            right: 180px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            border: none;
+            padding: 12px 20px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            color: white;
+            box-shadow: 0 4px 15px rgba(234, 88, 12, 0.3);
+            z-index: 100;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .download-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(234, 88, 12, 0.4);
+        }
+
+        /* ============ DOWNLOAD MODAL ============ */
+        .download-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 10000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .download-modal.active {
+            display: flex;
+        }
+
+        .download-modal-content {
+            background: white;
+            padding: 40px 50px;
+            border-radius: 20px;
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+        }
+
+        .download-modal-content h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 15px;
+        }
+
+        .download-modal-content h3 i {
+            color: var(--primary);
+            margin-right: 10px;
+        }
+
+        .download-modal-content p {
+            color: #666;
+            margin-bottom: 10px;
+        }
+
+        .download-progress-bar {
+            width: 100%;
+            height: 10px;
+            background: #eee;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 20px 0;
+        }
+
+        .download-progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--primary-light));
+            border-radius: 10px;
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        #downloadCount {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .download-cancel-btn {
+            margin-top: 20px;
+            background: #eee;
+            border: none;
+            padding: 10px 30px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            color: #666;
+            transition: all 0.3s ease;
+        }
+
+        .download-cancel-btn:hover {
+            background: #ddd;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ============ INTRO OVERLAY ============ -->
+    <div id="intro-overlay">
+        <div class="intro-particles" id="intro-particles"></div>
+        <div class="intro-glow"></div>
+        
+        <div class="intro-scene" id="scene-webvanto">
+            <div class="webvanto-logo">WEBVANTO</div>
+            <div class="webvanto-tagline">Learn. Build. Launch.</div>
+        </div>
+        
+        <div class="intro-scene" id="scene-wordpress">
+            <i class="fab fa-wordpress wp-logo-intro"></i>
+        </div>
+        
+        <div class="intro-scene" id="scene-title">
+            <div style="overflow: hidden;">
+                <div class="typing-text">WordPress Development</div>
+            </div>
+            <div style="overflow: hidden; margin-top: 10px;">
+                <div class="typing-text sub">Complete 25-Day Course</div>
+            </div>
+        </div>
+        
+        <div class="intro-scene" id="scene-counter">
+            <div class="counter-item">
+                <div class="counter-number">25</div>
+                <div class="counter-label">Days</div>
+            </div>
+            <div class="counter-item">
+                <div class="counter-number">38</div>
+                <div class="counter-label">Lectures</div>
+            </div>
+            <div class="counter-item">
+                <div class="counter-number">1</div>
+                <div class="counter-label">Complete Website</div>
+            </div>
+        </div>
+        
+        <div class="intro-scene" id="scene-instructor">
+            <div class="instructor-intro">
+                <div class="by">Course By</div>
+                <div class="name">Sir Subhan</div>
+                <div class="title">Founder of Webvanto</div>
+                <div class="title" style="margin-top: 15px;"><i class="fas fa-phone" style="color: #ea580c; margin-right: 8px;"></i>0327-4300037</div>
+            </div>
+        </div>
+        
+        <div class="intro-scene" id="scene-loading">
+            <div class="loading-container">
+                <div class="loading-text">Starting Course...</div>
+                <div class="loading-bar">
+                    <div class="loading-progress"></div>
+                </div>
+                <button class="begin-btn" onclick="startCourse()">
+                    <i class="fas fa-play"></i> Begin
+                </button>
+            </div>
+        </div>
+        
+        <button class="skip-btn" onclick="startCourse()">
+            Skip Intro <i class="fas fa-forward"></i>
+        </button>
+    </div>
+
+    <!-- ============ SIDEBAR ============ -->
+    <div class="sidebar">
+        <div class="sidebar-logo">
+            <i class="fab fa-wordpress"></i>
+        </div>
+        <div class="slide-dots" id="slideDots"></div>
+    </div>
+
+    <!-- ============ PROGRESS BAR ============ -->
+    <div class="progress-bar">
+        <div class="progress-fill" id="progressFill" style="width: 2.63%"></div>
+    </div>
+
+    <!-- ============ SLIDES WRAPPER ============ -->
+    <div class="slides-wrapper">
+        
+        <!-- SLIDE 1: Title -->
+        <div class="slide active">
+            <div class="text-center max-w-4xl">
+                <div class="w-32 h-32 mx-auto mb-8 bg-gradient-to-br from-orange-500 to-amber-400 rounded-3xl flex items-center justify-center shadow-2xl">
+                    <i class="fab fa-wordpress text-white text-6xl"></i>
+                </div>
+                <h1 class="title-xl mb-4">WordPress Development</h1>
+                <p class="text-2xl font-bold title-gradient mb-2">Complete 25-Day Course</p>
+                <p class="text-gray-500 mb-10">From Zero to Professional Website Builder</p>
+                
+                <div class="instructor-card inline-block px-12 py-8 mb-10">
+                    <p class="text-gray-400 text-sm mb-2 uppercase tracking-widest">Lectures by</p>
+                    <h2 class="text-3xl font-bold text-orange-400 mb-1">Sir Subhan</h2>
+                    <p class="text-gray-300">Founder of <span class="text-white font-semibold">Webvanto</span></p>
+                    <p class="text-gray-300 mt-3"><i class="fas fa-phone text-orange-400 mr-2"></i>0327-4300037</p>
+                </div>
+                
+                <div class="flex gap-3 justify-center flex-wrap">
+                    <span class="tag">✨ No Coding Required</span>
+                    <span class="tag">🎨 Elementor Based</span>
+                    <span class="tag">📅 25 Days</span>
+                    <span class="tag">💻 Practical</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 2: Course Overview -->
+        <div class="slide">
+            <div class="max-w-5xl w-full">
+                <div class="text-center mb-12">
+                    <h2 class="title-lg mb-3">25-Day Course Overview</h2>
+                    <p class="text-gray-500">Your complete roadmap to WordPress mastery</p>
+                </div>
+                
+                <div class="grid grid-cols-5 gap-5 mb-8">
+                    <div class="card text-center relative pt-8">
+                        <span class="week-badge absolute -top-3 left-1/2 -translate-x-1/2 whitespace-nowrap">Week 1</span>
+                        <div class="text-4xl mb-3">📖</div>
+                        <h3 class="font-bold text-orange-600">Days 1-5</h3>
+                        <p class="text-gray-500 text-sm">Fundamentals</p>
+                    </div>
+                    <div class="card text-center relative pt-8">
+                        <span class="week-badge absolute -top-3 left-1/2 -translate-x-1/2 whitespace-nowrap">Week 2</span>
+                        <div class="text-4xl mb-3">⚙️</div>
+                        <h3 class="font-bold text-orange-600">Days 6-10</h3>
+                        <p class="text-gray-500 text-sm">Content</p>
+                    </div>
+                    <div class="card text-center relative pt-8">
+                        <span class="week-badge absolute -top-3 left-1/2 -translate-x-1/2 whitespace-nowrap">Week 3</span>
+                        <div class="text-4xl mb-3">🎨</div>
+                        <h3 class="font-bold text-orange-600">Days 11-15</h3>
+                        <p class="text-gray-500 text-sm">Elementor</p>
+                    </div>
+                    <div class="card text-center relative pt-8">
+                        <span class="week-badge absolute -top-3 left-1/2 -translate-x-1/2 whitespace-nowrap">Week 4</span>
+                        <div class="text-4xl mb-3">🚀</div>
+                        <h3 class="font-bold text-orange-600">Days 16-20</h3>
+                        <p class="text-gray-500 text-sm">Go Live</p>
+                    </div>
+                    <div class="card text-center relative pt-8 border-2 border-amber-400">
+                        <span class="week-badge absolute -top-3 left-1/2 -translate-x-1/2 whitespace-nowrap bg-gradient-to-r from-amber-500 to-orange-500">Bonus</span>
+                        <div class="text-4xl mb-3">🌟</div>
+                        <h3 class="font-bold text-amber-600">Days 21-25</h3>
+                        <p class="text-gray-500 text-sm">Advanced</p>
+                    </div>
+                </div>
+                
+                <div class="info-box text-center">
+                    <p class="text-orange-800"><i class="fas fa-info-circle mr-2"></i>This course does NOT include theme & plugin customization (coding)</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 3: Week 1 Intro -->
+        <div class="slide">
+            <div class="week-intro absolute inset-0 flex items-center justify-center">
+                <div class="text-center">
+                    <span class="day-badge mb-8 inline-block">Week 1</span>
+                    <h1 class="title-xl mb-4">Fundamentals</h1>
+                    <p class="text-xl text-gray-600 mb-10">Days 1-5: WordPress, Domain, Hosting & Setup</p>
+                    <div class="flex gap-4 justify-center">
+                        <div class="card px-6 py-4 text-center"><p class="text-2xl font-bold text-orange-600">1</p><p class="text-sm text-gray-500">Intro</p></div>
+                        <div class="card px-6 py-4 text-center"><p class="text-2xl font-bold text-orange-600">2</p><p class="text-sm text-gray-500">Domain</p></div>
+                        <div class="card px-6 py-4 text-center"><p class="text-2xl font-bold text-orange-600">3</p><p class="text-sm text-gray-500">XAMPP</p></div>
+                        <div class="card px-6 py-4 text-center"><p class="text-2xl font-bold text-orange-600">4</p><p class="text-sm text-gray-500">Install</p></div>
+                        <div class="card px-6 py-4 text-center"><p class="text-2xl font-bold text-orange-600">5</p><p class="text-sm text-gray-500">Dashboard</p></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 4: Day 1 - What is WordPress -->
+        <div class="slide">
+            <div class="max-w-5xl w-full">
+                <div class="flex items-center gap-4 mb-10">
+                    <span class="day-badge">Day 1</span>
+                    <h2 class="title-lg">What is WordPress?</h2>
+                </div>
+                
+                <div class="grid grid-cols-2 gap-10 items-center">
+                    <div class="text-center">
+                        <div class="icon-box w-40 h-40 mx-auto mb-6">
+                            <i class="fab fa-wordpress text-6xl"></i>
+                        </div>
+                        <p class="stat-number">43%</p>
+                        <p class="text-gray-500 mt-2">of all websites use WordPress</p>
+                    </div>
+                    <div class="space-y-4">
+                        <div class="card border-l-4 border-orange-500">
+                            <h3 class="font-bold text-lg mb-2 flex items-center gap-3"><span class="text-2xl">📝</span> Content Management System</h3>
+                            <p class="text-gray-500">Software to create & manage website content without coding</p>
+                        </div>
+                        <div class="card border-l-4 border-orange-400">
+                            <h3 class="font-bold text-lg mb-2 flex items-center gap-3"><span class="text-2xl">🆓</span> Free & Open Source</h3>
+                            <p class="text-gray-500">Anyone can use, modify, and distribute freely</p>
+                        </div>
+                        <div class="card border-l-4 border-amber-400">
+                            <h3 class="font-bold text-lg mb-2 flex items-center gap-3"><span class="text-2xl">🔌</span> Highly Extensible</h3>
+                            <p class="text-gray-500">Thousands of themes and plugins available</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 5: Day 1 - Why WordPress -->
+        <div class="slide">
+            <div class="max-w-5xl w-full">
+                <div class="flex items-center gap-4 mb-10">
+                    <span class="day-badge">Day 1</span>
+                    <h2 class="title-lg">Why Choose WordPress?</h2>
+                </div>
+                
+                <div class="grid grid-cols-3 gap-5">
+                    <div class="card text-center">
+                        <div class="icon-box mx-auto mb-4"><i class="fas fa-dollar-sign"></i></div>
+                        <h3 class="font-bold mb-2">Free to Use</h3>
+                        <p class="text-gray-500 text-sm">No license fees</p>
+                    </div>
+                    <div class="card text-center">
+                        <div class="icon-box mx-auto mb-4"><i class="fas fa-graduation-cap"></i></div>
+                        <h3 class="font-bold mb-2">Easy to Learn</h3>
+                        <p class="text-gray-500 text-sm">No coding required</p>
+                    </div>
+                    <div class="card text-center">
+                        <div class="icon-box mx-auto mb-4"><i class="fas fa-puzzle-piece"></i></div>
+                        <h3 class="font-bold mb-2">59,000+ Plugins</h3>
+                        <p class="text-gray-500 text-sm">Add any feature</p>
+                    </div>
+                    <div class="card text-center">
+                        <div class="icon-box mx-auto mb-4"><i class="fas fa-palette"></i></div>
+                        <h3 class="font-bold mb-2">11,000+ Themes</h3>
+                        <p class="text-gray-500 text-sm">Beautiful designs</p>
+                    </div>
+                    <div class="card text-center">
+                        <div class="icon-box mx-auto mb-4"><i class="fas fa-search"></i></div>
+                        <h3 class="font-bold mb-2">SEO Friendly</h3>
+                        <p class="text-gray-500 text-sm">Rank higher</p>
+                    </div>
+                    <div class="card text-center">
+                        <div class="icon-box mx-auto mb-4"><i class="fas fa-users"></i></div>
+                        <h3 class="font-bold mb-2">Huge Community</h3>
+                        <p class="text-gray-500 text-sm">Help always available</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 6: Day 1 - .COM vs .ORG -->
+        <div class="slide">
+            <div class="max-w-5xl w-full">
+                <div class="flex items-center gap-4 mb-10">
+                    <span class="day-badge">Day 1</span>
+                    <h2 class="title-lg">.COM vs .ORG</h2>
+                </div>
+                
+                <div class="grid grid-cols-2 gap-8">
+                    <div class="vs-card">
+                        <div class="text-center mb-6">
+                            <i class="fab fa-wordpress text-5xl text-gray-400 mb-3"></i>
+                            <h3 class="text-2xl font-bold">WordPress.COM</h3>
+                        </div>
+                        <ul class="space-y-3">
+                            <li class="flex items-center gap-3"><i class="fas fa-check text-green-500"></i> Hosted for you</li>
+                            <li class="flex items-center gap-3"><i class="fas fa-check text-green-500"></i> Easy setup</li>
+                            <li class="flex items-center gap-3"><i class="fas fa-times text-red-500"></i> Limited customization</li>
+                            <li class="flex items-center gap-3"><i class="fas fa-times text-red-500"></i> Ads on free plan</li>
+                            <li class="flex items-center gap-3"><i class="fas fa-times text-red-500"></i> Can't install plugins</li>
+                        </ul>
+                        <div class="mt-6 p-4 bg-gray-100 rounded-xl text-center">
+                            <p class="text-gray-500">Best for: <span class="text-gray-800 font-semibold">Simple Bloggers</span></p>
+                        </div>
+                    </div>
+                    
+                    <div class="vs-card recommended relative">
+                        <div class="absolute -top-3 -right-3 bg-gradient-to-r from-orange-500 to-amber-500 text-white px-4 py-1 rounded-full text-sm font-bold shadow-lg">⭐ WE USE THIS!</div>
+                        <div class="text-center mb-6">
+                            <i class="fab fa-wordpress text-5xl text-orange-500 mb-3"></i>
+                            <h3 class="text-2xl font-bold">WordPress.ORG</h3>
+                        </div>
+                        <ul class="space-y-3">
+                            <li class="flex items-center gap-3"><i class="fas fa-check text-green-500"></i> Self-hosted (full control)</li>
+                            <li class="flex items-center gap-3"><i class="fas fa-check text-green-500"></i> Complete customization</li>
+                            <li class="flex items-center gap-3"><i class="fas fa-check text-green-500"></i> Install any plugin/theme</li>
+                            <li class="flex items-center gap-3"><i class="fas fa-check text-green-500"></i> No forced ads</li>
+                            <li class="flex items-center gap-3"><i class="fas fa-minus text-amber-500"></i> Need hosting & domain</li>
+                        </ul>
+                        <div class="mt-6 p-4 bg-orange-50 rounded-xl text-center">
+                            <p class="text-gray-500">Best for: <span class="text-orange-600 font-semibold">Professionals</span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 7: Day 2 - Domain -->
+        <div class="slide">
+            <div class="max-w-4xl w-full">
+                <div class="flex items-center gap-4 mb-10">
+                    <span class="day-badge">Day 2</span>
+                    <h2 class="title-lg">🌐 What is a Domain?</h2>
+                </div>
+                
+                <div class="card text-center p-10 mb-8">
+                    <p class="text-xl mb-6 text-gray-600">A domain is your website's <span class="text-orange-600 font-bold">ADDRESS</span> on the internet</p>
+                    <div class="code-block inline-block">
+                        <p class="text-2xl font-mono font-bold">www.yourwebsite.com</p>
+                    </div>
+                </div>
+                
+                <div class="grid grid-cols-2 gap-6 mb-6">
+                    <div class="card">
+                        <h3 class="font-bold mb-3 flex items-center gap-2"><i class="fas fa-home text-orange-500"></i> Real World Analogy</h3>
+                        <p class="text-gray-500">Like your home address helps people find your house, a domain helps users find your website</p>
+                    </div>
+                    <div class="card">
+                        <h3 class="font-bold mb-3 flex items-center gap-2"><i class="fas fa-tags text-orange-500"></i> Popular Extensions</h3>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="tag">.com</span>
+                            <span class="tag">.org</span>
+                            <span class="tag">.net</span>
+                            <span class="tag">.pk</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <h3 class="font-bold mb-3"><i class="fas fa-shopping-cart text-orange-500 mr-2"></i>Where to Buy?</h3>
+                    <div class="flex flex-wrap gap-3">
+                        <span class="tag">GoDaddy</span>
+                        <span class="tag">Namecheap</span>
+                        <span class="tag">Hostinger</span>
+                        <span class="tag">Cloudflare</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 8: Day 2 - Hosting -->
+        <div class="slide">
+            <div class="max-w-5xl w-full">
+                <div class="flex items-center gap-4 mb-10">
+                    <span class="day-badge">Day 2</span>
+                    <h2 class="title-lg">🖥️ What is Hosting?</h2>
+                </div>
+                
+                <div class="card p-10 mb-8 text-center">
+                    <p class="text-xl mb-8 text-gray-600">Hosting is where your website <span class="text-orange-600 font-bold">FILES LIVE</span></p>
+                    <div class="flex items-center justify-center gap-6">
+                        <div class="text-center">
+                            <div class="icon-box mx-auto mb-3"><i class="fas fa-file-code"></i></div>
+                            <p class="text-sm text-gray-500">Your Files</p>
+                        </div>
+                        <i class="fas fa-arrow-right text-2xl text-orange-500"></i>
+                        <div class="text-center">
+                            <div class="icon-box mx-auto mb-3"><i class="fas fa-server"></i></div>
+                            <p class="text-sm text-gray-500">Web Server</p>
+                        </div>
+                        <i class="fas fa-arrow-right text-2xl text-orange-500"></i>
+                        <div class="text-center">
+                            <div class="icon-box mx-auto mb-3"><i class="fas fa-globe"></i></div>
+                            <p class="text-sm text-gray-500">Internet</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="grid grid-cols-3 gap-6">
+                    <div class="card text-center">
+                        <i class="fas fa-share-alt text-3xl text-orange-500 mb-4"></i>
+                        <h3 class="font-bold mb-2">Shared Hosting</h3>
+                        <p class="text-gray-500 text-sm mb-3">Multiple sites share resources</p>
+                        <p class="text-xl font-bold text-orange-600">$3-10<span class="text-sm text-gray-400">/mo</span></p>
+                    </div>
+                    <div class="card text-center">
+                        <i class="fas fa-cloud text-3xl text-orange-500 mb-4"></i>
+                        <h3 class="font-bold mb-2">VPS Hosting</h3>
+                        <p class="text-gray-500 text-sm mb-3">Virtual private server</p>
+                        <p class="text-xl font-bold text-orange-600">$20-80<span class="text-sm text-gray-400">/mo</span></p>
+                    </div>
+                    <div class="card text-center">
+                        <i class="fas fa-database text-3xl text-orange-500 mb-4"></i>
+                        <h3 class="font-bold mb-2">Dedicated</h3>
+                        <p class="text-gray-500 text-sm mb-3">Entire server for you</p>
+                        <p class="text-xl font-bold text-orange-600">$100+<span class="text-sm text-gray-400">/mo</span></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 9: Day 2 - How They Work -->
+        <div class="slide">
+            <div class="max-w-4xl w-full">
+                <div class="flex items-center gap-4 mb-10">
+                    <span class="day-badge">Day 2</span>
+                    <h2 class="title-lg">How They Work Together</h2>
+                </div>
+                
+                <div class="card p-10">
+                    <div class="flex items-center justify-between mb-10">
+                        <div class="text-center">
+                            <div class="icon-box w-24 h-24 mx-auto mb-3"><i class="fas fa-user text-3xl"></i></div>
+                            <p class="font-bold">User</p>
+                        </div>
+                        <div class="text-2xl text-orange-500">→</div>
+                        <div class="text-center">
+                            <div class="icon-box w-24 h-24 mx-auto mb-3"><i class="fas fa-map-signs text-3xl"></i></div>
+                            <p class="font-bold">DNS</p>
+                        </div>
+                        <div class="text-2xl text-orange-500">→</div>
+                        <div class="text-center">
+                            <div class="icon-box w-24 h-24 mx-auto mb-3"><i class="fas fa-server text-3xl"></i></div>
+                            <p class="font-bold">Hosting</p>
+                        </div>
+                        <div class="text-2xl text-orange-500">→</div>
+                        <div class="text-center">
+                            <div class="icon-box w-24 h-24 mx-auto mb-3"><i class="fab fa-wordpress text-3xl"></i></div>
+                            <p class="font-bold">WordPress</p>
+                        </div>
+                    </div>
+                    
+                    <div class="info-box text-center text-lg">
+                        <span class="text-orange-600 font-bold">Domain</span> = Address | 
+                        <span class="text-orange-600 font-bold">Hosting</span> = House | 
+                        <span class="text-orange-600 font-bold">WordPress</span> = Furniture
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 10: Day 3 - XAMPP -->
+        <div class="slide">
+            <div class="max-w-5xl w-full">
+                <div class="flex items-center gap-4 mb-10">
+                    <span class="day-badge">Day 3</span>
+                    <h2 class="title-lg">What is XAMPP?</h2>
+                </div>
+                
+                <div class="grid grid-cols-2 gap-8">
+                    <div>
+                        <div class="card p-8 mb-6">
+                            <p class="text-xl mb-4">XAMPP is a free <span class="text-orange-600 font-bold">local server</span></p>
+                            <p class="text-gray-500">Turns your computer into a web server!</p>
+                        </div>
+                        <div class="card">
+                            <h3 class="font-bold mb-4">XAMPP Stands For:</h3>
+                            <div class="space-y-2">
+                                <p class="flex items-center gap-3"><span class="w-10 h-10 rounded-lg bg-orange-100 flex items-center justify-center text-orange-600 font-bold">X</span> Cross-platform</p>
+                                <p class="flex items-center gap-3"><span class="w-10 h-10 rounded-lg bg-orange-100 flex items-center justify-center text-orange-600 font-bold">A</span> Apache</p>
+                                <p class="flex items-center gap-3"><span class="w-10 h-10 rounded-lg bg-orange-100 flex items-center justify-center text-orange-600 font-bold">M</span> MySQL</p>
+                                <p class="flex items-center gap-3"><span class="w-10 h-10 rounded-lg bg-orange-100 flex items-center justify-center text-orange-600 font-bold">P</span> PHP</p>
+                                <p class="flex items-center gap-3"><span class="w-10 h-10 rounded-lg bg-orange-100 flex items-center justify-center text-orange-600 font-bold">P</span> Perl</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card p-8">
+                        <h3 class="font-bold text-xl mb-6 text-center"><i class="fas fa-question-circle text-orange-500 mr-2"></i>Why Use XAMPP?</h3>
+                        <ul class="space-y-4">
+                            <li class="flex items-center gap-4"><i class="fas fa-check text-green-500 text-xl"></i><span>Practice without buying hosting</span></li>
+                            <li class="flex items-center gap-4"><i class="fas fa-check text-green-500 text-xl"></i><span>Test changes safely offline</span></li>
+                            <li class="flex items-center gap-4"><i class="fas fa-check text-green-500 text-xl"></i><span>Develop faster (no upload needed)</span></li>
+                            <li class="flex items-center gap-4"><i class="fas fa-check text-green-500 text-xl"></i><span>Free & works on all OS</span></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 11: Day 3 - Installing XAMPP -->
+        <div class="slide">
+            <div class="max-w-4xl w-full">
+                <div class="flex items-center gap-4 mb-10">
+                    <span class="day-badge">Day 3</span>
+                    <h2 class="title-lg">Installing XAMPP</h2>
+                </div>
+                
+                <div class="space-y-4">
+                    <div class="card flex items-center gap-6">
+                        <div class="step-num">1</div>
+                        <div>
+                            <h3 class="font-bold text-lg">Download XAMPP</h3>
+                            <p class="text-gray-500">Visit <span class="text-orange-600 font-medium">apachefriends.org</span></p>
+                        </div>
+                    </div>
+                    <div class="card flex items-center gap-6">
+                        <div class="step-num">2</div>
+                        <div>
+                            <h3 class="font-bold text-lg">Run the Installer</h3>
+                            <p class="text-gray-500">Select components: Apache, MySQL, PHP</p>
+                        </div>
+                    </div>
+                    <div class="card flex items-center gap-6">
+                        <div class="step-num">3</div>
+                        <div>
+                            <h3 class="font-bold text-lg">Choose Install Location</h3>
+                            <p class="text-gray-500">Default: <code class="code-block px-3 py-1 rounded text-sm">C:\xampp</code></p>
+                        </div>
+                    </div>
+                    <div class="card flex items-center gap-6 border-2 border-green-400">
+                        <div class="step-num bg-gradient-to-br from-green-500 to-green-400">4</div>
+                        <div>
+                            <h3 class="font-bold text-lg">Start Services</h3>
+                            <p class="text-gray-500">Start <span class="text-green-600 font-medium">Apache</span> and <span class="text-green-600 font-medium">MySQL</span></p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="info-box text-center mt-8">
+                    <p class="text-orange-800"><i class="fas fa-rocket text-orange-500 mr-2"></i>Test it: Open <code class="code-block px-3 py-1 rounded ml-2">localhost</code> in browser</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 12: Day 4 - Installing WordPress -->
+        <div class="slide">
+            <div class="max-w-5xl w-full">
+                <div class="flex items-center gap-4 mb-10">
+                    <span class="day-badge">Day 4</span>
+                    <h2 class="title-lg">Installing WordPress</h2>
+                </div>
+                
+                <div class="grid grid-cols-2 gap-5 mb-8">
+                    <div class="card">
+                        <div class="flex items-center gap-4 mb-3">
+                            <div class="step-num">1</div>
+                            <h3 class="font-bold">Download WordPress</h3>
+                        </div>
+                        <p class="text-gray-500 ml-16">From <span class="text-orange-600">wordpress.org</span></p>
+                    </div>
+                    <div class="card">
+                        <div class="flex items-center gap-4 mb-3">
+                            <div class="step-num">2</div>
+                            <h3 class="font-bold">Extract to htdocs</h3>
+                        </div>
+                        <p class="text-gray-500 ml-16"><code class="text-orange-600">C:\xampp\htdocs\mysite</code></p>
+                    </div>
+                    <div class="card">
+                        <div class="flex items-center gap-4 mb-3">
+                            <div class="step-num">3</div>
+                            <h3 class="font-bold">Create Database</h3>
+                        </div>
+                        <p class="text-gray-500 ml-16"><span class="text-orange-600">localhost/phpmyadmin</span> → New</p>
+                    </div>
+                    <div class="card border-2 border-green-400">
+                        <div class="flex items-center gap-4 mb-3">
+                            <div class="step-num bg-gradient-to-br from-green-500 to-green-400">4</div>
+                            <h3 class="font-bold">Run Installation</h3>
+                        </div>
+                        <p class="text-gray-500 ml-16">Visit <code class="text-orange-600">localhost/mysite</code></p>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <h3 class="font-bold mb-4 text-center">Installation Details</h3>
+                    <div class="grid grid-cols-4 gap-4">
+                        <div class="bg-gray-50 p-4 rounded-xl"><span class="text-gray-500">Database:</span> <span class="text-orange-600 font-medium">mysite_db</span></div>
+                        <div class="bg-gray-50 p-4 rounded-xl"><span class="text-gray-500">Username:</span> <span class="text-orange-600 font-medium">root</span></div>
+                        <div class="bg-gray-50 p-4 rounded-xl"><span class="text-gray-500">Password:</span> <span class="text-amber-600 font-medium">(empty)</span></div>
+                        <div class="bg-gray-50 p-4 rounded-xl"><span class="text-gray-500">Host:</span> <span class="text-orange-600 font-medium">localhost</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 13: Day 5 - Dashboard -->
+        <div class="slide">
+            <div class="max-w-5xl w-full">
+                <div class="flex items-center gap-4 mb-10">
+                    <span class="day-badge">Day 5</span>
+                    <h2 class="title-lg">WordPress Dashboard</h2>
+                </div>
+                
+                <div class="grid grid-cols-3 gap-5">
+                    <div class="card text-center"><i class="fas fa-home text-3xl text-orange-500 mb-3"></i><h3 class="font-bold">Dashboard</h3><p class="text-gray-500 text-sm">Overview</p></div>
+                    <div class="card text-center"><i class="fas fa-edit text-3xl text-orange-500 mb-3"></i><h3 class="font-bold">Posts</h3><p class="text-gray-500 text-sm">Blog articles</p></div>
+                    <div class="card text-center"><i class="fas fa-images text-3xl text-orange-500 mb-3"></i><h3 class="font-bold">Media</h3><p class="text-gray-500 text-sm">Images & files</p></div>
+                    <div class="card text-center"><i class="fas fa-file text-3xl text-orange-500 mb-3"></i><h3 class="font-bold">Pages</h3><p class="text-gray-500 text-sm">Static pages</p></div>
+                    <div class="card text-center"><i class="fas fa-comments text-3xl text-orange-500 mb-3"></i><h3 class="font-bold">Comments</h3><p class="text-gray-500 text-sm">User feedback</p></div>
+                    <div class="card text-center"><i class="fas fa-palette text-3xl text-orange-500 mb-3"></i><h3 class="font-bold">Appearance</h3><p class="text-gray-500 text-sm">Themes & menus</p></div>
+                    <div class="card text-center"><i class="fas fa-plug text-3xl text-orange-500 mb-3"></i><h3 class="font-bold">Plugins</h3><p class="text-gray-500 text-sm">Add features</p></div>
+                    <div class="card text-center"><i class="fas fa-users text-3xl text-orange-500 mb-3"></i><h3 class="font-bold">Users</h3><p class="text-gray-500 text-sm">Manage users</p></div>
+                    <div class="card text-center"><i class="fas fa-cog text-3xl text-orange-500 mb-3"></i><h3 class="font-bold">Settings</h3><p class="text-gray-500 text-sm">Configure site</p></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 14: Week 2 Intro -->
+        <div class="slide">
+            <div class="week-intro absolute inset-0 flex items-center justify-center">
+                <div class="text-center">
+                    <span class="day-badge mb-8 inline-block">Week 2</span>
+                    <h1 class="title-xl mb-4">Content Management</h1>
+                    <p class="text-xl text-gray-600 mb-10">Days 6-10: Themes, Plugins, Posts & Pages</p>
+                    <div class="flex gap-4 justify-center">
+                        <div class="card px-6 py-4 text-center"><p class="text-2xl font-bold text-orange-600">6</p><p class="text-sm text-gray-500">Themes</p></div>
+                        <div class="card px-6 py-4 text-center"><p class="text-2xl font-bold text-orange-600">7</p><p class="text-sm text-gray-500">Plugins</p></div>
+                        <div class="card px-6 py-4 text-center"><p class="text-2xl font-bold text-orange-600">8</p><p class="text-sm text-gray-500">Posts</p></div>
+                        <div class="card px-6 py-4 text-center"><p class="text-2xl font-bold text-orange-600">9</p><p class="text-sm text-gray-500">Pages</p></div>
+                        <div class="card px-6 py-4 text-center"><p class="text-2xl font-bold text-orange-600">10</p><p class="text-sm text-gray-500">Media</p></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 15: Day 6 - Themes -->
+        <div class="slide">
+            <div class="max-w-5xl w-full">
+                <div class="flex items-center gap-4 mb-10">
+                    <span class="day-badge">Day 6</span>
+                    <h2 class="title-lg">🎨 What are Themes?</h2>
+                </div>
+                
+                <div class="grid grid-cols-2 gap-8">
+                    <div>
+                        <div class="card p-8 mb-6">
+                            <p class="text-xl mb-4">Themes control the <span class="text-orange-600 font-bold">LOOK & FEEL</span></p>
+                            <ul class="space-y-3 text-gray-500">
+                                <li><i class="fas fa-check text-green-500 mr-2"></i>Colors, fonts, layout</li>
+                                <li><i class="fas fa-check text-green-500 mr-2"></i>Header & footer design</li>
+                                <li><i class="fas fa-check text-green-500 mr-2"></i>Page templates</li>
+                            </ul>
+                        </div>
+                        <div class="info-box">
+                            <p class="text-orange-800"><i class="fas fa-lightbulb text-amber-500 mr-2"></i>Think of themes as your website's "clothes"</p>
+                        </div>
+                    </div>
+                    <div class="card p-8">
+                        <h3 class="font-bold text-xl mb-5 text-center">Recommended Themes</h3>
+                        <div class="space-y-4">
+                            <div class="bg-gray-50 p-4 rounded-xl flex items-center gap-4">
+                                <div class="w-12 h-12 rounded-xl bg-blue-500 flex items-center justify-center text-white"><i class="fas fa-star"></i></div>
+                                <div><p class="font-bold">Astra</p><p class="text-gray-500 text-sm">Fast & customizable</p></div>
+                            </div>
+                            <div class="bg-orange-50 p-4 rounded-xl flex items-center gap-4 border-2 border-orange-400">
+                                <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-orange-500 to-amber-400 flex items-center justify-center text-white"><i class="fas fa-crown"></i></div>
+                                <div><p class="font-bold">Hello Elementor <span class="text-orange-600 text-sm">⭐ Best!</span></p><p class="text-gray-500 text-sm">Perfect for Elementor</p></div>
+                            </div>
+                            <div class="bg-gray-50 p-4 rounded-xl flex items-center gap-4">
+                                <div class="w-12 h-12 rounded-xl bg-green-500 flex items-center justify-center text-white"><i class="fas fa-leaf"></i></div>
+                                <div><p class="font-bold">GeneratePress</p><p class="text-gray-500 text-sm">Lightweight</p></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 16: Day 7 - Plugins -->
+        <div class="slide">
+            <div class="max-w-5xl w-full">
+                <div class="flex items-center gap-4 mb-10">
+                    <span class="day-badge">Day 7</span>
+                    <h2 class="title-lg">🔌 What are Plugins?</h2>
+                </div>
+                
+                <div class="card p-8 mb-8 text-center">
+                    <p class="text-xl mb-2">Plugins add <span class="text-orange-600 font-bold">NEW FEATURES</span> to WordPress</p>
+                    <p class="text-gray-500">Like apps for your smartphone!</p>
+                </div>
+                
+                <div class="grid grid-cols-4 gap-5">
+                    <div class="card text-center"><i class="fas fa-shopping-cart text-3xl text-orange-500 mb-3"></i><h3 class="font-bold">WooCommerce</h3><p class="text-gray-500 text-sm">E-commerce</p></div>
+                    <div class="card text-center"><i class="fas fa-envelope text-3xl text-orange-500 mb-3"></i><h3 class="font-bold">Contact Form 7</h3><p class="text-gray-500 text-sm">Forms</p></div>
+                    <div class="card text-center"><i class="fas fa-search text-3xl text-orange-500 mb-3"></i><h3 class="font-bold">Yoast SEO</h3><p class="text-gray-500 text-sm">SEO</p></div>
+                    <div class="card text-center border-2 border-orange-400"><i class="fas fa-magic text-3xl text-orange-500 mb-3"></i><h3 class="font-bold">Elementor</h3><p class="text-gray-500 text-sm">Page Builder</p></div>
+                </div>
+                
+                <div class="mt-6 bg-red-50 border border-red-200 p-5 rounded-2xl text-center">
+                    <p class="text-red-600"><i class="fas fa-exclamation-triangle mr-2"></i>Warning: Too many plugins = slow website!</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 17: Day 8 - Posts -->
+        <div class="slide">
+            <div class="max-w-5xl w-full">
+                <div class="flex items-center gap-4 mb-10">
+                    <span class="day-badge">Day 8</span>
+                    <h2 class="title-lg">📝 Creating Posts</h2>
+                </div>
+                
+                <div class="grid grid-cols-2 gap-8">
+                    <div class="card p-8">
+                        <h3 class="font-bold text-xl mb-5">What are Posts?</h3>
+                        <ul class="space-y-4">
+                            <li class="flex items-center gap-4"><i class="fas fa-newspaper text-orange-500 text-xl"></i><span>Blog articles & news</span></li>
+                            <li class="flex items-center gap-4"><i class="fas fa-calendar text-orange-500 text-xl"></i><span>Date-based content</span></li>
+                            <li class="flex items-center gap-4"><i class="fas fa-folder text-orange-500 text-xl"></i><span>Organized by categories</span></li>
+                            <li class="flex items-center gap-4"><i class="fas fa-tags text-orange-500 text-xl"></i><span>Tagged for search</span></li>
+                        </ul>
+                    </div>
+                    <div class="card p-8">
+                        <h3 class="font-bold text-xl mb-5">Post Elements</h3>
+                        <div class="space-y-3">
+                            <div class="bg-gray-50 p-4 rounded-xl flex items-center gap-3"><i class="fas fa-heading text-orange-500"></i><span>Title</span></div>
+                            <div class="bg-gray-50 p-4 rounded-xl flex items-center gap-3"><i class="fas fa-align-left text-orange-500"></i><span>Content (Block Editor)</span></div>
+                            <div class="bg-gray-50 p-4 rounded-xl flex items-center gap-3"><i class="fas fa-image text-orange-500"></i><span>Featured Image</span></div>
+                            <div class="bg-gray-50 p-4 rounded-xl flex items-center gap-3"><i class="fas fa-folder text-orange-500"></i><span>Categories & Tags</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 18: Day 9 - Pages -->
+        <div class="slide">
+            <div class="max-w-5xl w-full">
+                <div class="flex items-center gap-4 mb-10">
+                    <span class="day-badge">Day 9</span>
+                    <h2 class="title-lg">📄 Posts vs Pages</h2>
+                </div>
+                
+                <div class="grid grid-cols-2 gap-8">
+                    <div class="card p-8 border-l-4 border-blue-500">
+                        <h3 class="text-2xl font-bold mb-5 text-blue-600">📝 Posts</h3>
+                        <ul class="space-y-3">
+                            <li class="flex items-center gap-3"><i class="fas fa-check text-green-500"></i>Time-based content</li>
+                            <li class="flex items-center gap-3"><i class="fas fa-check text-green-500"></i>Blog articles, news</li>
+                            <li class="flex items-center gap-3"><i class="fas fa-check text-green-500"></i>Has categories & tags</li>
+                            <li class="flex items-center gap-3"><i class="fas fa-check text-green-500"></i>Shows in blog feed</li>
+                            <li class="flex items-center gap-3"><i class="fas fa-check text-green-500"></i>Chronological order</li>
+                        </ul>
+                    </div>
+                    <div class="card p-8 border-l-4 border-orange-500">
+                        <h3 class="text-2xl font-bold mb-5 text-orange-600">📄 Pages</h3>
+                        <ul class="space-y-3">
+                            <li class="flex items-center gap-3"><i class="fas fa-check text-orange-500"></i>Static content</li>
+                            <li class="flex items-center gap-3"><i class="fas fa-check text-orange-500"></i>About, Contact, Services</li>
+                            <li class="flex items-center gap-3"><i class="fas fa-check text-orange-500"></i>No categories/tags</li>
+                            <li class="flex items-center gap-3"><i class="fas fa-check text-orange-500"></i>Hierarchical (parent/child)</li>
+                            <li class="flex items-center gap-3"><i class="fas fa-check text-orange-500"></i>Timeless content</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 19: Day 10 - Media -->
+        <div class="slide">
+            <div class="max-w-5xl w-full">
+                <div class="flex items-center gap-4 mb-10">
+                    <span class="day-badge">Day 10</span>
+                    <h2 class="title-lg">🖼️ Media, Categories & Tags</h2>
+                </div>
+                
+                <div class="grid grid-cols-3 gap-6">
+                    <div class="card p-6">
+                        <div class="icon-box mx-auto mb-4"><i class="fas fa-images"></i></div>
+                        <h3 class="font-bold text-center text-lg mb-3">Media Library</h3>
+                        <ul class="space-y-2 text-gray-500 text-sm">
+                            <li>• Upload images, videos</li>
+                            <li>• Organize your files</li>
+                            <li>• Edit images in WP</li>
+                            <li>• Set alt text for SEO</li>
+                        </ul>
+                    </div>
+                    <div class="card p-6">
+                        <div class="icon-box mx-auto mb-4"><i class="fas fa-folder"></i></div>
+                        <h3 class="font-bold text-center text-lg mb-3">Categories</h3>
+                        <ul class="space-y-2 text-gray-500 text-sm">
+                            <li>• Group related posts</li>
+                            <li>• Hierarchical structure</li>
+                            <li>• Main topics of blog</li>
+                            <li>• Required for posts</li>
+                        </ul>
+                    </div>
+                    <div class="card p-6">
+                        <div class="icon-box mx-auto mb-4"><i class="fas fa-tags"></i></div>
+                        <h3 class="font-bold text-center text-lg mb-3">Tags</h3>
+                        <ul class="space-y-2 text-gray-500 text-sm">
+                            <li>• Specific keywords</li>
+                            <li>• Not hierarchical</li>
+                            <li>• Cross-link content</li>
+                            <li>• Optional but useful</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 20: Week 3 Intro -->
+        <div class="slide">
+            <div class="week-intro absolute inset-0 flex items-center justify-center">
+                <div class="text-center">
+                    <span class="day-badge mb-8 inline-block">Week 3</span>
+                    <h1 class="title-xl mb-4">Building with Elementor</h1>
+                    <p class="text-xl text-gray-600 mb-10">Days 11-15: Page Building & Design</p>
+                    <div class="flex gap-4 justify-center">
+                        <div class="card px-6 py-4 text-center"><p class="text-2xl font-bold text-orange-600">11</p><p class="text-sm text-gray-500">Intro</p></div>
+                        <div class="card px-6 py-4 text-center"><p class="text-2xl font-bold text-orange-600">12</p><p class="text-sm text-gray-500">Widgets</p></div>
+                        <div class="card px-6 py-4 text-center"><p class="text-2xl font-bold text-orange-600">13</p><p class="text-sm text-gray-500">Homepage</p></div>
+                        <div class="card px-6 py-4 text-center"><p class="text-2xl font-bold text-orange-600">14</p><p class="text-sm text-gray-500">Inner Pages</p></div>
+                        <div class="card px-6 py-4 text-center"><p class="text-2xl font-bold text-orange-600">15</p><p class="text-sm text-gray-500">Forms</p></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 21: Day 11 - Elementor -->
+        <div class="slide">
+            <div class="max-w-5xl w-full">
+                <div class="flex items-center gap-4 mb-10">
+                    <span class="day-badge">Day 11</span>
+                    <h2 class="title-lg">🎨 What is Elementor?</h2>
+                </div>
+                
+                <div class="grid grid-cols-2 gap-8">
+                    <div class="card p-8">
+                        <p class="text-xl mb-6">Elementor is a <span class="text-orange-600 font-bold">Drag & Drop</span> page builder</p>
+                        <ul class="space-y-4">
+                            <li class="flex items-center gap-4"><i class="fas fa-mouse-pointer text-orange-500 text-xl"></i><span>No coding required</span></li>
+                            <li class="flex items-center gap-4"><i class="fas fa-eye text-orange-500 text-xl"></i><span>Live visual editing</span></li>
+                            <li class="flex items-center gap-4"><i class="fas fa-mobile-alt text-orange-500 text-xl"></i><span>Responsive controls</span></li>
+                            <li class="flex items-center gap-4"><i class="fas fa-th text-orange-500 text-xl"></i><span>100+ widgets</span></li>
+                        </ul>
+                    </div>
+                    <div class="card p-8">
+                        <h3 class="font-bold text-xl mb-5 text-center">How to Install</h3>
+                        <div class="space-y-3">
+                            <div class="bg-gray-50 p-4 rounded-xl flex items-center gap-3"><div class="step-num w-10 h-10 text-sm">1</div><span>Plugins → Add New</span></div>
+                            <div class="bg-gray-50 p-4 rounded-xl flex items-center gap-3"><div class="step-num w-10 h-10 text-sm">2</div><span>Search "Elementor"</span></div>
+                            <div class="bg-gray-50 p-4 rounded-xl flex items-center gap-3"><div class="step-num w-10 h-10 text-sm">3</div><span>Install & Activate</span></div>
+                            <div class="bg-green-50 p-4 rounded-xl flex items-center gap-3 border border-green-300"><div class="step-num w-10 h-10 text-sm bg-gradient-to-br from-green-500 to-green-400">4</div><span>Edit with Elementor!</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 22: Day 12 - Widgets -->
+        <div class="slide">
+            <div class="max-w-5xl w-full">
+                <div class="flex items-center gap-4 mb-10">
+                    <span class="day-badge">Day 12</span>
+                    <h2 class="title-lg">🧩 Elementor Widgets</h2>
+                </div>
+                
+                <div class="grid grid-cols-6 gap-4">
+                    <div class="card p-4 text-center"><i class="fas fa-heading text-2xl text-orange-500 mb-2"></i><p class="font-bold text-sm">Heading</p></div>
+                    <div class="card p-4 text-center"><i class="fas fa-align-left text-2xl text-orange-500 mb-2"></i><p class="font-bold text-sm">Text</p></div>
+                    <div class="card p-4 text-center"><i class="fas fa-image text-2xl text-orange-500 mb-2"></i><p class="font-bold text-sm">Image</p></div>
+                    <div class="card p-4 text-center"><i class="fas fa-play text-2xl text-orange-500 mb-2"></i><p class="font-bold text-sm">Video</p></div>
+                    <div class="card p-4 text-center"><i class="fas fa-hand-pointer text-2xl text-orange-500 mb-2"></i><p class="font-bold text-sm">Button</p></div>
+                    <div class="card p-4 text-center"><i class="fas fa-minus text-2xl text-orange-500 mb-2"></i><p class="font-bold text-sm">Divider</p></div>
+                    <div class="card p-4 text-center"><i class="fas fa-expand text-2xl text-orange-500 mb-2"></i><p class="font-bold text-sm">Spacer</p></div>
+                    <div class="card p-4 text-center"><i class="fas fa-th-large text-2xl text-orange-500 mb-2"></i><p class="font-bold text-sm">Icon Box</p></div>
+                    <div class="card p-4 text-center"><i class="fas fa-images text-2xl text-orange-500 mb-2"></i><p class="font-bold text-sm">Gallery</p></div>
+                    <div class="card p-4 text-center"><i class="fas fa-sliders-h text-2xl text-orange-500 mb-2"></i><p class="font-bold text-sm">Slider</p></div>
+                    <div class="card p-4 text-center"><i class="fas fa-quote-left text-2xl text-orange-500 mb-2"></i><p class="font-bold text-sm">Testimonial</p></div>
+                    <div class="card p-4 text-center"><i class="fas fa-share-alt text-2xl text-orange-500 mb-2"></i><p class="font-bold text-sm">Social</p></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 23: Day 13 - Homepage -->
+        <div class="slide">
+            <div class="max-w-5xl w-full">
+                <div class="flex items-center gap-4 mb-10">
+                    <span class="day-badge">Day 13</span>
+                    <h2 class="title-lg">🏠 Building Homepage</h2>
+                </div>
+                
+                <div class="grid grid-cols-2 gap-8">
+                    <div class="card p-8">
+                        <h3 class="font-bold text-xl mb-5">Homepage Sections</h3>
+                        <div class="space-y-3">
+                            <div class="bg-orange-50 p-4 rounded-xl flex items-center gap-4 border-l-4 border-orange-500"><i class="fas fa-star text-orange-500 text-xl"></i><div><p class="font-bold">Hero Section</p><p class="text-gray-500 text-sm">Main headline & CTA</p></div></div>
+                            <div class="bg-gray-50 p-4 rounded-xl flex items-center gap-4"><i class="fas fa-th text-orange-500 text-xl"></i><div><p class="font-bold">Services/Features</p></div></div>
+                            <div class="bg-gray-50 p-4 rounded-xl flex items-center gap-4"><i class="fas fa-info-circle text-orange-500 text-xl"></i><div><p class="font-bold">About Section</p></div></div>
+                            <div class="bg-gray-50 p-4 rounded-xl flex items-center gap-4"><i class="fas fa-quote-right text-orange-500 text-xl"></i><div><p class="font-bold">Testimonials</p></div></div>
+                            <div class="bg-gray-50 p-4 rounded-xl flex items-center gap-4"><i class="fas fa-envelope text-orange-500 text-xl"></i><div><p class="font-bold">Call to Action</p></div></div>
+                        </div>
+                    </div>
+                    <div class="card p-8 bg-gradient-to-br from-gray-100 to-gray-50">
+                        <div class="border-2 border-dashed border-gray-300 rounded-xl p-4 mb-3 h-20 flex items-center justify-center text-gray-400">Hero Section</div>
+                        <div class="border-2 border-dashed border-gray-300 rounded-xl p-4 mb-3 h-16 flex items-center justify-center text-gray-400">Services</div>
+                        <div class="border-2 border-dashed border-gray-300 rounded-xl p-4 mb-3 h-16 flex items-center justify-center text-gray-400">About</div>
+                        <div class="border-2 border-dashed border-gray-300 rounded-xl p-4 h-12 flex items-center justify-center text-gray-400">CTA</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 24: Day 14 - Inner Pages -->
+        <div class="slide">
+            <div class="max-w-5xl w-full">
+                <div class="flex items-center gap-4 mb-10">
+                    <span class="day-badge">Day 14</span>
+                    <h2 class="title-lg">📑 Building Inner Pages</h2>
+                </div>
+                
+                <div class="grid grid-cols-2 gap-6">
+                    <div class="card p-6">
+                        <h3 class="font-bold mb-4 flex items-center gap-3"><i class="fas fa-info-circle text-orange-500 text-xl"></i> About Page</h3>
+                        <ul class="space-y-2 text-gray-500"><li>• Company story</li><li>• Mission & vision</li><li>• Team members</li></ul>
+                    </div>
+                    <div class="card p-6">
+                        <h3 class="font-bold mb-4 flex items-center gap-3"><i class="fas fa-cogs text-orange-500 text-xl"></i> Services Page</h3>
+                        <ul class="space-y-2 text-gray-500"><li>• Service cards</li><li>• Pricing info</li><li>• Process steps</li></ul>
+                    </div>
+                    <div class="card p-6">
+                        <h3 class="font-bold mb-4 flex items-center gap-3"><i class="fas fa-briefcase text-orange-500 text-xl"></i> Portfolio</h3>
+                        <ul class="space-y-2 text-gray-500"><li>• Project gallery</li><li>• Case studies</li><li>• Before/After</li></ul>
+                    </div>
+                    <div class="card p-6">
+                        <h3 class="font-bold mb-4 flex items-center gap-3"><i class="fas fa-question-circle text-orange-500 text-xl"></i> FAQ Page</h3>
+                        <ul class="space-y-2 text-gray-500"><li>• Accordion widget</li><li>• Common questions</li><li>• Organized by topic</li></ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 25: Day 15 - Forms -->
+        <div class="slide">
+            <div class="max-w-5xl w-full">
+                <div class="flex items-center gap-4 mb-10">
+                    <span class="day-badge">Day 15</span>
+                    <h2 class="title-lg">📧 Contact & Forms</h2>
+                </div>
+                
+                <div class="grid grid-cols-2 gap-8">
+                    <div class="card p-8">
+                        <h3 class="font-bold text-xl mb-5">Contact Page Elements</h3>
+                        <div class="space-y-4">
+                            <div class="flex items-center gap-4"><i class="fas fa-map-marker-alt text-red-500 text-xl"></i><span>Address & Google Map</span></div>
+                            <div class="flex items-center gap-4"><i class="fas fa-phone text-green-500 text-xl"></i><span>Phone Number</span></div>
+                            <div class="flex items-center gap-4"><i class="fas fa-envelope text-blue-500 text-xl"></i><span>Email Address</span></div>
+                            <div class="flex items-center gap-4"><i class="fas fa-clock text-amber-500 text-xl"></i><span>Business Hours</span></div>
+                        </div>
+                    </div>
+                    <div class="card p-8">
+                        <h3 class="font-bold text-xl mb-5">Form Plugins</h3>
+                        <div class="space-y-4">
+                            <div class="bg-orange-50 p-5 rounded-xl flex items-center gap-4 border border-orange-200">
+                                <i class="fab fa-wpforms text-orange-500 text-2xl"></i>
+                                <div><p class="font-bold">WPForms</p><p class="text-gray-500 text-sm">Beginner friendly, drag & drop</p></div>
+                            </div>
+                            <div class="bg-gray-50 p-5 rounded-xl flex items-center gap-4">
+                                <i class="fas fa-envelope-open text-blue-500 text-2xl"></i>
+                                <div><p class="font-bold">Contact Form 7</p><p class="text-gray-500 text-sm">Free & popular</p></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 26: Week 4 Intro -->
+        <div class="slide">
+            <div class="week-intro absolute inset-0 flex items-center justify-center">
+                <div class="text-center">
+                    <span class="day-badge mb-8 inline-block">Week 4</span>
+                    <h1 class="title-xl mb-4">Going Live</h1>
+                    <p class="text-xl text-gray-600 mb-10">Days 16-20: Menus, SEO & Launch</p>
+                    <div class="flex gap-4 justify-center">
+                        <div class="card px-6 py-4 text-center"><p class="text-2xl font-bold text-orange-600">16</p><p class="text-sm text-gray-500">Menus</p></div>
+                        <div class="card px-6 py-4 text-center"><p class="text-2xl font-bold text-orange-600">17</p><p class="text-sm text-gray-500">SEO</p></div>
+                        <div class="card px-6 py-4 text-center"><p class="text-2xl font-bold text-orange-600">18</p><p class="text-sm text-gray-500">Plugins</p></div>
+                        <div class="card px-6 py-4 text-center"><p class="text-2xl font-bold text-orange-600">19</p><p class="text-sm text-gray-500">Launch</p></div>
+                        <div class="card px-6 py-4 text-center"><p class="text-2xl font-bold text-orange-600">20</p><p class="text-sm text-gray-500">Maintain</p></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 27: Day 16 - Menus -->
+        <div class="slide">
+            <div class="max-w-5xl w-full">
+                <div class="flex items-center gap-4 mb-10">
+                    <span class="day-badge">Day 16</span>
+                    <h2 class="title-lg">📋 Creating Menus</h2>
+                </div>
+                
+                <div class="grid grid-cols-2 gap-8">
+                    <div class="card p-8">
+                        <h3 class="font-bold text-xl mb-5">How to Create Menu</h3>
+                        <div class="space-y-3">
+                            <div class="flex items-center gap-4"><div class="step-num">1</div><span>Appearance → Menus</span></div>
+                            <div class="flex items-center gap-4"><div class="step-num">2</div><span>Create new menu</span></div>
+                            <div class="flex items-center gap-4"><div class="step-num">3</div><span>Add pages/links</span></div>
+                            <div class="flex items-center gap-4"><div class="step-num">4</div><span>Drag to reorder</span></div>
+                            <div class="flex items-center gap-4"><div class="step-num bg-gradient-to-br from-green-500 to-green-400">5</div><span>Assign location & Save</span></div>
+                        </div>
+                    </div>
+                    <div class="card p-8">
+                        <h3 class="font-bold text-xl mb-5">Menu Locations</h3>
+                        <div class="space-y-4">
+                            <div class="bg-gray-50 p-4 rounded-xl"><i class="fas fa-bars text-orange-500 mr-3"></i>Primary Menu (Header)</div>
+                            <div class="bg-gray-50 p-4 rounded-xl"><i class="fas fa-shoe-prints text-orange-500 mr-3"></i>Footer Menu</div>
+                            <div class="bg-gray-50 p-4 rounded-xl"><i class="fas fa-mobile-alt text-orange-500 mr-3"></i>Mobile Menu</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 28: Day 17 - SEO -->
+        <div class="slide">
+            <div class="max-w-5xl w-full">
+                <div class="flex items-center gap-4 mb-10">
+                    <span class="day-badge">Day 17</span>
+                    <h2 class="title-lg">🔍 Settings & SEO</h2>
+                </div>
+                
+                <div class="grid grid-cols-2 gap-8">
+                    <div class="card p-8">
+                        <h3 class="font-bold text-xl mb-5">Important Settings</h3>
+                        <div class="space-y-3">
+                            <div class="bg-gray-50 p-4 rounded-xl"><i class="fas fa-cog text-orange-500 mr-3"></i>General: Title & Tagline</div>
+                            <div class="bg-gray-50 p-4 rounded-xl"><i class="fas fa-book-open text-orange-500 mr-3"></i>Reading: Homepage Display</div>
+                            <div class="bg-orange-50 p-4 rounded-xl border border-orange-300"><i class="fas fa-link text-orange-500 mr-3"></i>Permalinks: Post Name ⭐</div>
+                        </div>
+                    </div>
+                    <div class="card p-8">
+                        <h3 class="font-bold text-xl mb-5">Basic SEO</h3>
+                        <div class="space-y-3">
+                            <div class="flex items-center gap-3"><i class="fas fa-check text-green-500"></i><span>Install Yoast or Rank Math</span></div>
+                            <div class="flex items-center gap-3"><i class="fas fa-check text-green-500"></i><span>Write good page titles</span></div>
+                            <div class="flex items-center gap-3"><i class="fas fa-check text-green-500"></i><span>Add meta descriptions</span></div>
+                            <div class="flex items-center gap-3"><i class="fas fa-check text-green-500"></i><span>Use image alt text</span></div>
+                            <div class="flex items-center gap-3"><i class="fas fa-check text-green-500"></i><span>Create XML sitemap</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 29: Day 18 - Plugins -->
+        <div class="slide">
+            <div class="max-w-5xl w-full">
+                <div class="flex items-center gap-4 mb-10">
+                    <span class="day-badge">Day 18</span>
+                    <h2 class="title-lg">🔌 Essential Plugins</h2>
+                </div>
+                
+                <div class="grid grid-cols-3 gap-5">
+                    <div class="card p-5"><h3 class="font-bold mb-3 flex items-center gap-2"><i class="fas fa-shield-alt text-green-500"></i> Security</h3><p class="text-gray-500">Wordfence</p></div>
+                    <div class="card p-5"><h3 class="font-bold mb-3 flex items-center gap-2"><i class="fas fa-save text-blue-500"></i> Backup</h3><p class="text-gray-500">UpdraftPlus</p></div>
+                    <div class="card p-5"><h3 class="font-bold mb-3 flex items-center gap-2"><i class="fas fa-tachometer-alt text-amber-500"></i> Speed</h3><p class="text-gray-500">WP Super Cache</p></div>
+                    <div class="card p-5"><h3 class="font-bold mb-3 flex items-center gap-2"><i class="fas fa-search text-orange-500"></i> SEO</h3><p class="text-gray-500">Yoast SEO</p></div>
+                    <div class="card p-5"><h3 class="font-bold mb-3 flex items-center gap-2"><i class="fas fa-image text-purple-500"></i> Images</h3><p class="text-gray-500">Smush</p></div>
+                    <div class="card p-5"><h3 class="font-bold mb-3 flex items-center gap-2"><i class="fas fa-envelope text-pink-500"></i> Forms</h3><p class="text-gray-500">WPForms</p></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 30: Day 19 - Going Live -->
+        <div class="slide">
+            <div class="max-w-4xl w-full">
+                <div class="flex items-center gap-4 mb-10">
+                    <span class="day-badge">Day 19</span>
+                    <h2 class="title-lg">🚀 Going Live!</h2>
+                </div>
+                
+                <div class="card p-8">
+                    <h3 class="font-bold text-xl mb-6 text-center">Migration Steps</h3>
+                    <div class="space-y-4">
+                        <div class="bg-gray-50 p-5 rounded-xl flex items-center gap-5"><div class="step-num">1</div><div><p class="font-bold">Buy Domain & Hosting</p></div></div>
+                        <div class="bg-gray-50 p-5 rounded-xl flex items-center gap-5"><div class="step-num">2</div><div><p class="font-bold">Install Migration Plugin</p><p class="text-gray-500 text-sm">All-in-One WP Migration</p></div></div>
+                        <div class="bg-gray-50 p-5 rounded-xl flex items-center gap-5"><div class="step-num">3</div><div><p class="font-bold">Export from Localhost</p></div></div>
+                        <div class="bg-gray-50 p-5 rounded-xl flex items-center gap-5"><div class="step-num">4</div><div><p class="font-bold">Import to Live Server</p></div></div>
+                        <div class="bg-green-50 p-5 rounded-xl flex items-center gap-5 border border-green-300"><div class="step-num bg-gradient-to-br from-green-500 to-green-400">5</div><div><p class="font-bold">Enable SSL (HTTPS) & Test</p></div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 31: Day 20 - Maintenance -->
+        <div class="slide">
+            <div class="max-w-5xl w-full">
+                <div class="flex items-center gap-4 mb-10">
+                    <span class="day-badge">Day 20</span>
+                    <h2 class="title-lg">🛠️ Website Maintenance</h2>
+                </div>
+                
+                <div class="grid grid-cols-2 gap-8">
+                    <div class="card p-8">
+                        <h3 class="font-bold text-xl mb-5">Regular Tasks</h3>
+                        <div class="space-y-4">
+                            <div class="flex items-center gap-4"><i class="fas fa-sync text-orange-500 text-xl"></i><span>Update WordPress core</span></div>
+                            <div class="flex items-center gap-4"><i class="fas fa-puzzle-piece text-orange-500 text-xl"></i><span>Update plugins</span></div>
+                            <div class="flex items-center gap-4"><i class="fas fa-palette text-orange-500 text-xl"></i><span>Update themes</span></div>
+                            <div class="flex items-center gap-4"><i class="fas fa-database text-orange-500 text-xl"></i><span>Backup regularly</span></div>
+                            <div class="flex items-center gap-4"><i class="fas fa-shield-alt text-orange-500 text-xl"></i><span>Security scans</span></div>
+                        </div>
+                    </div>
+                    <div class="card p-8">
+                        <h3 class="font-bold text-xl mb-5">Maintenance Schedule</h3>
+                        <div class="space-y-4">
+                            <div class="bg-green-50 p-4 rounded-xl"><span class="text-green-600 font-bold">Daily:</span> Check for issues</div>
+                            <div class="bg-blue-50 p-4 rounded-xl"><span class="text-blue-600 font-bold">Weekly:</span> Backup & updates</div>
+                            <div class="bg-purple-50 p-4 rounded-xl"><span class="text-purple-600 font-bold">Monthly:</span> Security audit</div>
+                            <div class="bg-amber-50 p-4 rounded-xl"><span class="text-amber-600 font-bold">Yearly:</span> Renew domain & hosting</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 32: Bonus Week Intro -->
+        <div class="slide">
+            <div class="week-intro absolute inset-0 flex items-center justify-center" style="background: linear-gradient(135deg, #fef3c7, #fde68a);">
+                <div class="text-center">
+                    <span class="day-badge bg-gradient-to-r from-amber-500 to-orange-500 mb-8 inline-block">🌟 Bonus Week</span>
+                    <h1 class="title-xl mb-4">Advanced Topics</h1>
+                    <p class="text-xl text-gray-600 mb-10">Days 21-25: Pro Skills</p>
+                    <div class="flex gap-4 justify-center">
+                        <div class="card px-6 py-4 text-center border-2 border-amber-400"><p class="text-2xl font-bold text-amber-600">21</p><p class="text-sm text-gray-500">Responsive</p></div>
+                        <div class="card px-6 py-4 text-center border-2 border-amber-400"><p class="text-2xl font-bold text-amber-600">22</p><p class="text-sm text-gray-500">WooCommerce</p></div>
+                        <div class="card px-6 py-4 text-center border-2 border-amber-400"><p class="text-2xl font-bold text-amber-600">23</p><p class="text-sm text-gray-500">Analytics</p></div>
+                        <div class="card px-6 py-4 text-center border-2 border-amber-400"><p class="text-2xl font-bold text-amber-600">24</p><p class="text-sm text-gray-500">Speed</p></div>
+                        <div class="card px-6 py-4 text-center border-2 border-amber-400"><p class="text-2xl font-bold text-amber-600">25</p><p class="text-sm text-gray-500">Freelancing</p></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 33: Day 21 - Responsive -->
+        <div class="slide">
+            <div class="max-w-5xl w-full">
+                <div class="flex items-center gap-4 mb-10">
+                    <span class="day-badge bg-gradient-to-r from-amber-500 to-orange-500">Day 21</span>
+                    <h2 class="title-lg">📱 Responsive Design</h2>
+                </div>
+                
+                <div class="grid grid-cols-3 gap-8">
+                    <div class="card p-8 text-center">
+                        <i class="fas fa-desktop text-5xl text-orange-500 mb-5"></i>
+                        <h3 class="font-bold text-xl mb-2">Desktop</h3>
+                        <p class="text-gray-500">Full layout, all features</p>
+                    </div>
+                    <div class="card p-8 text-center">
+                        <i class="fas fa-tablet-alt text-5xl text-orange-500 mb-5"></i>
+                        <h3 class="font-bold text-xl mb-2">Tablet</h3>
+                        <p class="text-gray-500">Adjusted spacing</p>
+                    </div>
+                    <div class="card p-8 text-center">
+                        <i class="fas fa-mobile-alt text-5xl text-orange-500 mb-5"></i>
+                        <h3 class="font-bold text-xl mb-2">Mobile</h3>
+                        <p class="text-gray-500">Single column</p>
+                    </div>
+                </div>
+                
+                <div class="info-box text-center mt-8">
+                    <p class="text-orange-800">💡 Click device icons in Elementor to adjust for each screen size</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 34: Day 22 - WooCommerce -->
+        <div class="slide">
+            <div class="max-w-5xl w-full">
+                <div class="flex items-center gap-4 mb-10">
+                    <span class="day-badge bg-gradient-to-r from-amber-500 to-orange-500">Day 22</span>
+                    <h2 class="title-lg">🛒 WooCommerce Basics</h2>
+                </div>
+                
+                <div class="grid grid-cols-2 gap-8">
+                    <div class="card p-8">
+                        <h3 class="font-bold text-xl mb-5">What is WooCommerce?</h3>
+                        <p class="text-gray-500 mb-5">Free plugin to create an online store</p>
+                        <div class="space-y-3">
+                            <div class="flex items-center gap-3"><i class="fas fa-check text-green-500"></i><span>Sell physical products</span></div>
+                            <div class="flex items-center gap-3"><i class="fas fa-check text-green-500"></i><span>Sell digital downloads</span></div>
+                            <div class="flex items-center gap-3"><i class="fas fa-check text-green-500"></i><span>Accept payments</span></div>
+                            <div class="flex items-center gap-3"><i class="fas fa-check text-green-500"></i><span>Manage inventory</span></div>
+                        </div>
+                    </div>
+                    <div class="card p-8">
+                        <h3 class="font-bold text-xl mb-5">Setup Steps</h3>
+                        <div class="space-y-3">
+                            <div class="bg-gray-50 p-3 rounded-xl">1. Install WooCommerce plugin</div>
+                            <div class="bg-gray-50 p-3 rounded-xl">2. Run setup wizard</div>
+                            <div class="bg-gray-50 p-3 rounded-xl">3. Add products</div>
+                            <div class="bg-gray-50 p-3 rounded-xl">4. Configure payments</div>
+                            <div class="bg-gray-50 p-3 rounded-xl">5. Set up shipping</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 35: Day 23 - Analytics -->
+        <div class="slide">
+            <div class="max-w-5xl w-full">
+                <div class="flex items-center gap-4 mb-10">
+                    <span class="day-badge bg-gradient-to-r from-amber-500 to-orange-500">Day 23</span>
+                    <h2 class="title-lg">📊 Google Analytics</h2>
+                </div>
+                
+                <div class="grid grid-cols-2 gap-8">
+                    <div class="card p-8">
+                        <h3 class="font-bold text-xl mb-5">Why Analytics?</h3>
+                        <div class="space-y-4">
+                            <div class="flex items-center gap-4"><i class="fas fa-users text-orange-500 text-xl"></i><span>Track visitors</span></div>
+                            <div class="flex items-center gap-4"><i class="fas fa-chart-line text-orange-500 text-xl"></i><span>See traffic sources</span></div>
+                            <div class="flex items-center gap-4"><i class="fas fa-file text-orange-500 text-xl"></i><span>Popular pages</span></div>
+                            <div class="flex items-center gap-4"><i class="fas fa-clock text-orange-500 text-xl"></i><span>Time on site</span></div>
+                        </div>
+                    </div>
+                    <div class="card p-8">
+                        <h3 class="font-bold text-xl mb-5">How to Setup</h3>
+                        <div class="space-y-3">
+                            <div class="bg-gray-50 p-3 rounded-xl">1. Create Google Analytics account</div>
+                            <div class="bg-gray-50 p-3 rounded-xl">2. Get tracking code</div>
+                            <div class="bg-gray-50 p-3 rounded-xl">3. Install MonsterInsights plugin</div>
+                            <div class="bg-gray-50 p-3 rounded-xl">4. Connect to Google</div>
+                            <div class="bg-green-50 p-3 rounded-xl border border-green-300">5. View reports in dashboard!</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 36: Day 24 - Speed -->
+        <div class="slide">
+            <div class="max-w-5xl w-full">
+                <div class="flex items-center gap-4 mb-10">
+                    <span class="day-badge bg-gradient-to-r from-amber-500 to-orange-500">Day 24</span>
+                    <h2 class="title-lg">⚡ Speed Optimization</h2>
+                </div>
+                
+                <div class="grid grid-cols-3 gap-5">
+                    <div class="card p-6 text-center"><i class="fas fa-image text-3xl text-orange-500 mb-3"></i><h3 class="font-bold mb-2">Optimize Images</h3><p class="text-gray-500 text-sm">Compress & lazy load</p></div>
+                    <div class="card p-6 text-center"><i class="fas fa-database text-3xl text-orange-500 mb-3"></i><h3 class="font-bold mb-2">Use Caching</h3><p class="text-gray-500 text-sm">WP Super Cache</p></div>
+                    <div class="card p-6 text-center"><i class="fas fa-code text-3xl text-orange-500 mb-3"></i><h3 class="font-bold mb-2">Minify CSS/JS</h3><p class="text-gray-500 text-sm">Autoptimize</p></div>
+                    <div class="card p-6 text-center"><i class="fas fa-server text-3xl text-orange-500 mb-3"></i><h3 class="font-bold mb-2">Good Hosting</h3><p class="text-gray-500 text-sm">Fast servers</p></div>
+                    <div class="card p-6 text-center"><i class="fas fa-globe text-3xl text-orange-500 mb-3"></i><h3 class="font-bold mb-2">Use CDN</h3><p class="text-gray-500 text-sm">Cloudflare</p></div>
+                    <div class="card p-6 text-center"><i class="fas fa-trash text-3xl text-orange-500 mb-3"></i><h3 class="font-bold mb-2">Remove Unused</h3><p class="text-gray-500 text-sm">Plugins & themes</p></div>
+                </div>
+                
+                <div class="info-box text-center mt-6">
+                    <p class="text-orange-800"><i class="fas fa-tachometer-alt mr-2"></i>Test with GTmetrix or PageSpeed Insights</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 37: Day 25 - Freelancing -->
+        <div class="slide">
+            <div class="max-w-5xl w-full">
+                <div class="flex items-center gap-4 mb-10">
+                    <span class="day-badge bg-gradient-to-r from-amber-500 to-orange-500">Day 25</span>
+                    <h2 class="title-lg">💼 Freelancing Tips</h2>
+                </div>
+                
+                <div class="grid grid-cols-2 gap-8">
+                    <div class="card p-8">
+                        <h3 class="font-bold text-xl mb-5">Getting Started</h3>
+                        <div class="space-y-4">
+                            <div class="flex items-center gap-4"><i class="fas fa-briefcase text-orange-500 text-xl"></i><span>Build a portfolio website</span></div>
+                            <div class="flex items-center gap-4"><i class="fas fa-users text-orange-500 text-xl"></i><span>Create Fiverr, Upwork profiles</span></div>
+                            <div class="flex items-center gap-4"><i class="fas fa-handshake text-orange-500 text-xl"></i><span>Network locally</span></div>
+                            <div class="flex items-center gap-4"><i class="fas fa-share-alt text-orange-500 text-xl"></i><span>Use social media</span></div>
+                        </div>
+                    </div>
+                    <div class="card p-8">
+                        <h3 class="font-bold text-xl mb-5">Pricing Guide (PKR)</h3>
+                        <div class="space-y-3">
+                            <div class="bg-gray-50 p-4 rounded-xl flex justify-between"><span>Simple Website</span><span class="text-orange-600 font-bold">50-100k</span></div>
+                            <div class="bg-gray-50 p-4 rounded-xl flex justify-between"><span>Business Website</span><span class="text-orange-600 font-bold">100-300k</span></div>
+                            <div class="bg-gray-50 p-4 rounded-xl flex justify-between"><span>E-commerce</span><span class="text-orange-600 font-bold">200-500k</span></div>
+                            <div class="bg-gray-50 p-4 rounded-xl flex justify-between"><span>Custom Project</span><span class="text-orange-600 font-bold">500k+</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 38: Final -->
+        <div class="slide">
+            <div class="text-center max-w-4xl">
+                <div class="w-32 h-32 mx-auto mb-8 bg-gradient-to-br from-orange-500 to-amber-400 rounded-3xl flex items-center justify-center shadow-2xl">
+                    <i class="fas fa-trophy text-white text-5xl"></i>
+                </div>
+                
+                <h1 class="title-xl mb-4">🎉 Congratulations!</h1>
+                <p class="text-xl text-gray-600 mb-10">You've completed the 25-Day WordPress Course!</p>
+                
+                <div class="instructor-card inline-block px-12 py-8 mb-10">
+                    <p class="text-gray-400 text-sm mb-2 uppercase tracking-widest">Course by</p>
+                    <h2 class="text-3xl font-bold text-orange-400 mb-1">Sir Subhan</h2>
+                    <p class="text-gray-300">Founder of <span class="text-white font-semibold">Webvanto</span></p>
+                    <p class="text-gray-300 mt-3"><i class="fas fa-phone text-orange-400 mr-2"></i>0327-4300037</p>
+                </div>
+                
+                <div class="card p-8 max-w-2xl mx-auto">
+                    <h3 class="font-bold text-xl mb-5">What's Next?</h3>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="bg-gray-50 p-4 rounded-xl flex items-center gap-3"><i class="fas fa-rocket text-orange-500"></i><span>Build real projects</span></div>
+                        <div class="bg-gray-50 p-4 rounded-xl flex items-center gap-3"><i class="fas fa-briefcase text-orange-500"></i><span>Create portfolio</span></div>
+                        <div class="bg-gray-50 p-4 rounded-xl flex items-center gap-3"><i class="fas fa-dollar-sign text-orange-500"></i><span>Start freelancing</span></div>
+                        <div class="bg-gray-50 p-4 rounded-xl flex items-center gap-3"><i class="fas fa-book text-orange-500"></i><span>Keep learning!</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Navigation Buttons -->
+    <div class="nav-buttons">
+        <button class="nav-btn prev" onclick="prevSlide()"><i class="fas fa-arrow-left"></i></button>
+        <button class="nav-btn next" onclick="nextSlide()"><i class="fas fa-arrow-right"></i></button>
+    </div>
+
+    <!-- Slide Counter -->
+    <div class="slide-counter">
+        <span id="currentSlide">1</span> / <span id="totalSlides">38</span>
+    </div>
+
+    <!-- Fullscreen Button -->
+    <button class="fullscreen-btn" onclick="toggleFullscreen()">
+        <i class="fas fa-expand"></i> Fullscreen
+    </button>
+
+    <!-- Download Button -->
+    <button class="download-btn" onclick="downloadAllSlides()">
+        <i class="fas fa-download"></i> Download All Slides
+    </button>
+
+    <!-- Download Progress Modal -->
+    <div id="downloadModal" class="download-modal">
+        <div class="download-modal-content">
+            <h3><i class="fas fa-images"></i> Downloading Slides</h3>
+            <p id="downloadStatus">Preparing slides...</p>
+            <div class="download-progress-bar">
+                <div class="download-progress-fill" id="downloadProgressFill"></div>
+            </div>
+            <p id="downloadCount">0 / 38</p>
+            <button class="download-cancel-btn" onclick="cancelDownload()">Cancel</button>
+        </div>
+    </div>
+
+    <script>
+        // Slide functionality
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+        
+        document.getElementById('totalSlides').textContent = totalSlides;
+        
+        // Create dots
+        const dotsContainer = document.getElementById('slideDots');
+        slides.forEach((_, i) => {
+            const dot = document.createElement('div');
+            dot.className = `slide-dot ${i === 0 ? 'active' : ''}`;
+            dot.onclick = () => goToSlide(i);
+            dotsContainer.appendChild(dot);
+        });
+        
+        function updateSlide() {
+            slides.forEach((slide, i) => {
+                slide.classList.toggle('active', i === currentSlide);
+            });
+            
+            document.querySelectorAll('.slide-dot').forEach((dot, i) => {
+                dot.classList.toggle('active', i === currentSlide);
+            });
+            
+            document.getElementById('currentSlide').textContent = currentSlide + 1;
+            document.getElementById('progressFill').style.width = ((currentSlide + 1) / totalSlides * 100) + '%';
+            
+            // Scroll active dot into view
+            const activeDot = document.querySelector('.slide-dot.active');
+            if (activeDot) activeDot.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+        
+        function nextSlide() {
+            if (currentSlide < totalSlides - 1) {
+                currentSlide++;
+                updateSlide();
+            }
+        }
+        
+        function prevSlide() {
+            if (currentSlide > 0) {
+                currentSlide--;
+                updateSlide();
+            }
+        }
+        
+        function goToSlide(index) {
+            currentSlide = index;
+            updateSlide();
+        }
+        
+        function toggleFullscreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen();
+            } else {
+                document.exitFullscreen();
+            }
+        }
+        
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ') {
+                e.preventDefault();
+                nextSlide();
+            } else if (e.key === 'ArrowLeft') {
+                prevSlide();
+            } else if (e.key === 'f' || e.key === 'F') {
+                toggleFullscreen();
+            }
+        });
+        
+        // ============ INTRO ANIMATION ============
+        const particlesContainer = document.getElementById('intro-particles');
+        for (let i = 0; i < 30; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'intro-particle';
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.animationDelay = Math.random() * 4 + 's';
+            particle.style.animationDuration = (3 + Math.random() * 2) + 's';
+            particlesContainer.appendChild(particle);
+        }
+        
+        const scenes = [
+            { id: 'scene-webvanto', duration: 2500 },
+            { id: 'scene-wordpress', duration: 2500 },
+            { id: 'scene-title', duration: 3500 },
+            { id: 'scene-counter', duration: 2500 },
+            { id: 'scene-instructor', duration: 2500 },
+            { id: 'scene-loading', duration: 4000 }
+        ];
+        
+        let currentScene = 0;
+        
+        function playIntro() {
+            if (currentScene < scenes.length) {
+                const scene = scenes[currentScene];
+                const sceneEl = document.getElementById(scene.id);
+                
+                if (currentScene > 0) {
+                    const prevScene = document.getElementById(scenes[currentScene - 1].id);
+                    prevScene.classList.remove('active');
+                    prevScene.classList.add('exit');
+                }
+                
+                setTimeout(() => {
+                    sceneEl.classList.add('active');
+                }, 200);
+                
+                currentScene++;
+                
+                if (currentScene < scenes.length) {
+                    setTimeout(playIntro, scene.duration);
+                }
+            }
+        }
+        
+        function startCourse() {
+            const intro = document.getElementById('intro-overlay');
+            intro.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
+            intro.style.opacity = '0';
+            intro.style.transform = 'scale(1.1)';
+            
+            setTimeout(() => {
+                intro.classList.add('hidden');
+            }, 800);
+        }
+        
+        window.addEventListener('load', () => {
+            setTimeout(playIntro, 500);
+        });
+
+        // ============ DOWNLOAD ALL SLIDES ============
+        let isDownloading = false;
+        let downloadCancelled = false;
+
+        async function downloadAllSlides() {
+            if (isDownloading) return;
+            
+            isDownloading = true;
+            downloadCancelled = false;
+            
+            // Show modal
+            const modal = document.getElementById('downloadModal');
+            modal.classList.add('active');
+            
+            // Hide intro if visible
+            const intro = document.getElementById('intro-overlay');
+            intro.classList.add('hidden');
+            
+            // Hide UI elements for clean capture
+            document.querySelector('.sidebar').style.display = 'none';
+            document.querySelector('.progress-bar').style.display = 'none';
+            document.querySelector('.nav-buttons').style.display = 'none';
+            document.querySelector('.slide-counter').style.display = 'none';
+            document.querySelector('.fullscreen-btn').style.display = 'none';
+            document.querySelector('.download-btn').style.display = 'none';
+            
+            // Adjust slides wrapper for full capture
+            const slidesWrapper = document.querySelector('.slides-wrapper');
+            slidesWrapper.style.left = '0';
+            
+            const totalSlides = slides.length;
+            
+            for (let i = 0; i < totalSlides; i++) {
+                if (downloadCancelled) break;
+                
+                // Update progress
+                document.getElementById('downloadStatus').textContent = `Capturing slide ${i + 1}...`;
+                document.getElementById('downloadCount').textContent = `${i + 1} / ${totalSlides}`;
+                document.getElementById('downloadProgressFill').style.width = ((i + 1) / totalSlides * 100) + '%';
+                
+                // Show only current slide
+                slides.forEach((slide, index) => {
+                    slide.classList.toggle('active', index === i);
+                });
+                
+                // Wait for rendering
+                await new Promise(resolve => setTimeout(resolve, 300));
+                
+                try {
+                    // Capture slide
+                    const canvas = await html2canvas(slides[i], {
+                        scale: 2,
+                        useCORS: true,
+                        allowTaint: true,
+                        backgroundColor: null,
+                        width: slidesWrapper.offsetWidth,
+                        height: slidesWrapper.offsetHeight
+                    });
+                    
+                    // Download image
+                    const link = document.createElement('a');
+                    link.download = `WordPress-Course-Slide-${String(i + 1).padStart(2, '0')}.png`;
+                    link.href = canvas.toDataURL('image/png');
+                    link.click();
+                    
+                    // Small delay between downloads
+                    await new Promise(resolve => setTimeout(resolve, 500));
+                    
+                } catch (error) {
+                    console.error(`Error capturing slide ${i + 1}:`, error);
+                }
+            }
+            
+            // Restore UI
+            document.querySelector('.sidebar').style.display = '';
+            document.querySelector('.progress-bar').style.display = '';
+            document.querySelector('.nav-buttons').style.display = '';
+            document.querySelector('.slide-counter').style.display = '';
+            document.querySelector('.fullscreen-btn').style.display = '';
+            document.querySelector('.download-btn').style.display = '';
+            slidesWrapper.style.left = '80px';
+            
+            // Go back to original slide
+            slides.forEach((slide, index) => {
+                slide.classList.toggle('active', index === currentSlide);
+            });
+            
+            // Update modal
+            if (!downloadCancelled) {
+                document.getElementById('downloadStatus').textContent = 'Download Complete!';
+                document.getElementById('downloadCount').textContent = `All ${totalSlides} slides downloaded!`;
+            } else {
+                document.getElementById('downloadStatus').textContent = 'Download Cancelled';
+            }
+            
+            // Hide modal after delay
+            setTimeout(() => {
+                modal.classList.remove('active');
+                isDownloading = false;
+            }, 2000);
+        }
+
+        function cancelDownload() {
+            downloadCancelled = true;
+            document.getElementById('downloadStatus').textContent = 'Cancelling...';
+        }
+    </script>
+</body>
+</html>
